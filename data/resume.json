@@ -1,0 +1,51 @@
+{
+    "Full": {
+        "contact": {
+            "firstname": "Shageethnath",
+            "lastname":"Bremnath",
+            "email":"Shageeth32@gmail.com",
+            "github": "github.com/shaggy3232"
+        },
+        "work":[
+                {
+                    "name": "NRML",
+                    "duration":"June 2022 - April 2024",
+                    "task": ["Increased conversion by 59% by developing an E-commerce website using HTML, CSS, and Javascript", "Created NodeJS application to automate inventory-receiving tasks resulting in 27% fewer man hours and eliminating human error when digitally organizing products with 100% accuracy", ""],
+                    "title": "Software developer",
+                    "technologies":["HTML","CSS","Javascript","NodeJS"]
+                
+                },
+                {
+                    "name":"Founder-Now",
+                    "duration":"",
+                    "task": [],
+                    "title": "",
+                    "technologies":[]
+                },
+                {
+                    "name":"Polyseam",
+                    "duration":"",
+                    "task": [],
+                    "title": "",
+                    "technologies":[]
+                },
+                {
+                    "name":"Uottawa",
+                    "duration":"",
+                    "task": [],
+                    "title": "",
+                    "technologies":[]
+                
+                }
+        ],     
+        "projects":[       
+            {
+                "name":"Booking-system-API",
+                "description":"",
+                "stack":"",
+                "purpose":"",
+                "github-link":""
+            }
+        ]
+    }
+}
