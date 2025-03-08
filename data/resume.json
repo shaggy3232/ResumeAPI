@@ -1,5 +1,5 @@
 {
-    "Full": {
+    
         "contact": {
             "firstname": "Shageethnath",
             "lastname":"Bremnath",
@@ -8,7 +8,7 @@
         },
         "work":[
                 {
-                    "name": "NRML",
+                    "company": "NRML",
                     "duration":"June 2022 - April 2024",
                     "task": ["Increased conversion by 59% by developing an E-commerce website using HTML, CSS, and Javascript", "Created NodeJS application to automate inventory-receiving tasks resulting in 27% fewer man hours and eliminating human error when digitally organizing products with 100% accuracy", ""],
                     "title": "Software developer",
@@ -16,36 +16,36 @@
                 
                 },
                 {
-                    "name":"Founder-Now",
-                    "duration":"",
-                    "task": [],
-                    "title": "",
-                    "technologies":[]
+                    "company":"Founder-Now",
+                    "duration":"June 2021 - November 2021",
+                    "task": ["Built and deployed an iOS app to ensure that all user interface design elements were implemented accurately using SwiftUI", "Efficiently managed user data and enhanced security by implementing Firebase authentication, ensuring secure access and reliable user information storage.","Rearchitected legacy system to an event-driven model reducing runtime by 40% utilizing Combine framework"],
+                    "title": "iOS Developer",
+                    "technologies":["Swift", "SwiftUI", "GitHub", "Firebase"]
                 },
                 {
-                    "name":"Polyseam",
-                    "duration":"",
-                    "task": [],
-                    "title": "",
-                    "technologies":[]
+                    "company":"Polyseam",
+                    "duration":"January 2021 - April  2021",
+                    "task": ["Deployed and managed scalable applications on AWS with Kubernetes and Docker, reducing deployment times by 40% and ensuring high availability and reliability of services in production environments", "Engineered and optimized backend services using Python and GoLang, resulting in a 30% reduction in processing time and improving overall system efficiency to meet customer needs"],
+                    "title": "Software Engineer",
+                    "technologies":["Kubernetes", "Docker", "Python"]
                 },
                 {
-                    "name":"Uottawa",
-                    "duration":"",
-                    "task": [],
-                    "title": "",
-                    "technologies":[]
+                    "company":"Uottawa",
+                    "duration":"September 2020 - December 2020",
+                    "task": ["Applied strong programming skills in JavaScript, TypeScript, ReactJS, Express.js, Node.js, and NextJS to build robust quiz framework web applications to assist with online learning during COVID","Conducted quality assurance testing to ensure that website and application functionality was free of bugs and errors, resulting in a reliable and trustworthy user experience", "Performed regular code reviews to debug and validate code for pull requests using Github and wrote technical documentation for REST APIs and services that I developed"],
+                    "title": "Software Engineer",
+                    "technologies":["Javascript", "TypeScript", "ReactJS", "ExpressJS", "NodeJS", "NextJS"]
                 
                 }
         ],     
         "projects":[       
             {
                 "name":"Booking-system-API",
-                "description":"",
-                "stack":"",
-                "purpose":"",
-                "github-link":""
+                "description":"Developed a robust referee booking system using Go, leveraging the repository design pattern to achieve clean, scalable, and maintainable code architecture, enabling efficient scheduling and improved system reliability.",
+                "stack":["GoLang","Docker","Postgres"],
+                "purpose":"Collaborated with the local referee board to gather system requirements and create a streamlined booking platform, ensuring alignment with operational workflows and addressing key scheduling challenges",
+                "github-link":"https://github.com/shaggy3232/PLAY-BACKEND-GO"
             }
         ]
-    }
+    
 }

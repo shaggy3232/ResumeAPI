@@ -2,139 +2,148 @@ package main
 
 import (
 	"encoding/json"
-	"io"
+	"fmt"
 	"net/http"
-	"path/filepath"
+	"os"
+
+	"github.com/gorilla/mux"
+	"github.com/shaggy3232/ResumeAPI/models"
 )
 
 func main() {
-	//initialize router
+	r := mux.NewRouter()
 
-	//start server
+	r.HandleFunc("/", ResumeHandler)
+	r.HandleFunc("/contact", ContactHandler).Methods("GET")
+	r.HandleFunc("/projects", ProjectHandler).Methods("GET")
+	r.HandleFunc("/work", WorkHandler).Methods("GET")
 
+	http.Handle("/", r)
+
+	http.ListenAndServe(":8000", r)
 }
 
-//setup up router function
-//initalize a new chi router
-//set up the middle wares
-//Logger
-//Recoverer
-//cors
-// set cors option for origin
-// set cors option for the methods
-
-// registor routes
-
-//create a function to registor all of the routes
-
-//create routes for each of the end points
-//assign method to handler functions
-
-//create handler for each endpoint
-//create the CRUD function for each of the endpoints
-
-///Contact
-
-var contactFilePath = filepath.Join("data", "contact.json")
-
-func UpdateContact(w http.ResponseWriter, r *http.Request) {
-
-	var contact Contact
-
-	if err := ReadJson(contactFilePath, &contact); err != nil {
-		http.Error(w, "Error Reading contact from contact.json", http.StatusInternalServerError)
+func ResumeHandler(w http.ResponseWriter, r *http.Request) {
+	Resume, err := GetFullResume()
+	if err != nil {
+		fmt.Println("could not get resume from json")
 		return
 	}
 
-	var newContact Contact
+	encode(w, r, http.StatusOK, Resume)
 
-	if err := json.NewDecoder(r.Body).Decode(&newContact); err != nil {
-		http.Error(w, "Error decoding Contact from request", http.StatusBadRequest)
+}
+
+func ContactHandler(w http.ResponseWriter, r *http.Request) {
+	Contact, err := GetContact()
+	if err != nil {
+		fmt.Println("could not get contact from the resume")
+		encode(w, r, http.StatusInternalServerError, err)
 		return
 	}
-	contact = newContact
 
-	if err := WriteJson(contactFilePath, &contact); err != nil {
-		http.Error(w, "Error writing new contact to contact.json", http.StatusInternalServerError)
+	encode(w, r, http.StatusOK, Contact)
+}
+
+func ProjectHandler(w http.ResponseWriter, r *http.Request) {
+	projects, err := GetProjects()
+
+	if err != nil {
+		fmt.Println("could not get projects")
+		encode(w, r, http.StatusInternalServerError, err)
+		return
+
+	}
+
+	encode(w, r, http.StatusOK, projects)
+}
+
+func WorkHandler(w http.ResponseWriter, r *http.Request) {
+	works, err := GetWork()
+
+	if err != nil {
+		fmt.Println("could not get works from resume")
+		encode(w, r, http.StatusInternalServerError, err)
 		return
 	}
 
-	json.NewEncoder(w).Encode(newContact)
-	return
+	encode(w, r, http.StatusOK, works)
 }
 
-func GetContacts(w http.ResponseWriter, r *http.Request) {
+//get the server running and get http requests
 
-}
+//create functions to handle the http requests
 
-///Jobs
+//handlers the requests are to parset models and return json data
 
-///Projects
+// write functions that will get the data from the json files and return that data
 
-//Util function to Read and write Json
+// create the models that the json data gets parsed into
 
-func ReadJson(filepath string, target interface{}) error {
-	file, err := os.open(filepath)
-	if err != nil {
-		return err
-	}
-
-	defer file.close()
-
-	data, err := io.ReadAll(file)
-	if err != nil {
-		return err
-	}
-
-	return json.Unmarshal(data, target)
-}
-
-func WriteJson(filepath string, data interface{}) error {
-	file, err := os.open(filepath)
-	if err != nil {
-		return err
-	}
-
-	defer file.close()
-
-	jsonData, err := json.MarshalIndent(data, "", " ")
+func GetFullResume() (models.Resume, error) {
+	var resume models.Resume
+	jsonFile, err := os.ReadFile("./data/resume.json")
 
 	if err != nil {
-		return err
+		fmt.Println("could not read resume.json")
+		return resume, err
 	}
 
-	_, err := file.write(file, jsonData)
+	json.Unmarshal(jsonFile, &resume)
+
+	return resume, nil
 
 }
 
-//create the models for the each sections of the resumes
+func GetContact() (models.Contact, error) {
+	var resume models.Resume
+	jsonFile, err := os.ReadFile("./data/resume.json")
 
-type Resume struct {
-	Contact  Contact
-	Jobs     []Jobs
-	Projects []Projects
-	Skills   []string
+	if err != nil {
+		fmt.Println("could not read resume.json")
+		return resume.Contact, err
+	}
+
+	json.Unmarshal(jsonFile, &resume)
+
+	return resume.Contact, nil
 }
 
-type Contact struct {
-	FirstName string
-	LastName  string
-	Email     string
-	Github    string
+func GetProjects() ([]models.Project, error) {
+	var resume models.Resume
+	jsonFile, err := os.ReadFile("./data/resume.json")
+
+	if err != nil {
+		fmt.Println("could not read resume.json")
+		return resume.Projects, err
+	}
+
+	json.Unmarshal(jsonFile, &resume)
+
+	return resume.Projects, nil
 }
 
-type Jobs struct {
-	Company      string
-	Duration     string
-	Task         []string
-	Title        string
-	Technologies []string
+func GetWork() ([]models.Work, error) {
+	var resume models.Resume
+	jsonFile, err := os.ReadFile("./data/resume.json")
+
+	if err != nil {
+		fmt.Println("could not read resume.json")
+		return resume.Work, err
+	}
+
+	json.Unmarshal(jsonFile, &resume)
+
+	return resume.Work, nil
 }
 
-type Projects struct {
-	Name        string
-	Description string
-	Stack       string
-	Purpose     string
-	Github      string
+func encode[T any](w http.ResponseWriter, r *http.Request, status int, v T) error {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+
+	if err := json.NewEncoder(w).Encode(v); err != nil {
+		return fmt.Errorf("Encode json: %w", err)
+	}
+
+	return nil
 }
